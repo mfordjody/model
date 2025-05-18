@@ -48,7 +48,7 @@ func (p producer) produce(c *model) {
 
 	// Wait until there is space in the buffer
 	for c.count == c.bufferSize {
-		fmt.Println("Buffer full, producer waiting...")
+		fmt.Println(" Buffer full, producer waiting...")
 		c.producerWakeup.Wait()
 	}
 
@@ -67,7 +67,7 @@ func (c consumer) consume(m *model) {
 
 	// Wait until there is data in the buffer
 	for m.count == 0 {
-		fmt.Println("Buffer empty, consumer waiting...")
+		fmt.Println(" Buffer empty, consumer waiting...")
 		m.consumerWakeup.Wait()
 	}
 
@@ -102,7 +102,7 @@ func main() {
 		wg.Add(1)
 		go func(id int) {
 			defer wg.Done()
-			for j := 0; j < 5; j++ {
+			for j := 0; j < 150; j++ {
 				time.Sleep(time.Millisecond * 100)
 				producer{}.produce(c)
 			}
@@ -114,7 +114,7 @@ func main() {
 		wg.Add(1)
 		go func(id int) {
 			defer wg.Done()
-			for j := 0; j < 5; j++ {
+			for j := 0; j < 150; j++ {
 				time.Sleep(time.Millisecond * 150)
 				consumer{}.consume(c)
 			}
